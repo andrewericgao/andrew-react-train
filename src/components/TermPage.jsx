@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import TermSelector from './TermSelector';
 import CourseList from './CourseList';
 import Modal from './Modal';
+import { isCourseConflict } from '/src/utilities/timeConflictUtilities';
+
 
 const TermPage = ({ courses, selectedCourses, toggleCourseSelection }) => {
   const [selectedTerm, setSelectedTerm] = useState('Fall');
@@ -16,6 +18,13 @@ const TermPage = ({ courses, selectedCourses, toggleCourseSelection }) => {
 
     const openModal = () => setModalOpen(true);
     const closeModal = () => setModalOpen(false);
+
+    const isCourseSelectable = (courseId) => {
+        const course = filteredCourses[courseId];
+        return selectedCourses.every(
+          selectedId => !isCourseConflict(course, filteredCourses[selectedId])
+        );
+      };
 
   return (
     <div className="term-page">
@@ -34,7 +43,7 @@ const TermPage = ({ courses, selectedCourses, toggleCourseSelection }) => {
             ))
         }
       </Modal>}
-      <CourseList course={filteredCourses} selectedCourses={selectedCourses} toggleCourseSelection={toggleCourseSelection} />
+      <CourseList course={filteredCourses} selectedCourses={selectedCourses} toggleCourseSelection={toggleCourseSelection} isCourseSelectable={isCourseSelectable} />
     </div>
   );
 };

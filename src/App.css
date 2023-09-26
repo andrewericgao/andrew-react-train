@@ -91,3 +91,9 @@ hr {
 .course-plan-btn:hover {
   background-color: #45a049;
 }
+
+
+.not-allowed {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
