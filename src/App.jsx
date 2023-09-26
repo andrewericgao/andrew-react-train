@@ -1,7 +1,7 @@
 import React from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import Banner from '/src/components/Banner.jsx';
-import CourseList from '/src/components/CourseList.jsx';
+import TermPage from '/src/components/TermPage.jsx';
 import { useJsonQuery } from '/src/utilities/fetchJson.js';
 import './App.css';
 
@@ -16,9 +16,7 @@ const App = () => {
   return (
     <div className="app-container">
       <Banner title={data ? data.title : 'Loading...'} />
-      <div className="course-container">
-        {data && <CourseList course={data.courses} />}
-      </div>
+      {data && <TermPage courses={data.courses} />}
     </div>
   );
 };
