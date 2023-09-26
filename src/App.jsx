@@ -36,11 +36,14 @@ const schedule = {
 };
 
 
+
 const App = () => {
   return (
-    <div>
-      <h1>{schedule.title}</h1>
-      <CourseList course={schedule.courses} />
+    <div className="app-container">
+      <Banner title={schedule.title} />
+      <div className="course-container">
+        <CourseList course={schedule.courses} />
+      </div>
     </div>
   );
 };
