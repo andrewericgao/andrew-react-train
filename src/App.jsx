@@ -1,51 +1,30 @@
-import { useState } from 'react';
-import logo from './logo.svg';
-import './App.css';
 import React from 'react';
-import Banner from '/Users/andrewgao/Desktop/Northwestern/andrew-react-train/src/components/Banner.jsx';
-import CourseList from '/Users/andrewgao/Desktop/Northwestern/andrew-react-train/src/components/CourseList.jsx';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import Banner from '/src/components/Banner.jsx';
+import CourseList from '/src/components/CourseList.jsx';
+import { useJsonQuery } from '/src/utilities/fetchJson.js';
+import './App.css';
 
-const schedule = {
-  "title": "CS Courses for 2018-2019",
-  "courses": {
-    "F101" : {
-      "term": "Fall",
-      "number": "101",
-      "meets" : "MWF 11:00-11:50",
-      "title" : "Computer Science: Concepts, Philosophy, and Connections"
-    },
-    "F110" : {
-      "term": "Fall",
-      "number": "110",
-      "meets" : "MWF 10:00-10:50",
-      "title" : "Intro Programming for non-majors"
-    },
-    "S313" : {
-      "term": "Spring",
-      "number": "313",
-      "meets" : "TuTh 15:30-16:50",
-      "title" : "Tangible Interaction Design and Learning"
-    },
-    "S314" : {
-      "term": "Spring",
-      "number": "314",
-      "meets" : "TuTh 9:30-10:50",
-      "title" : "Tech & Human Interaction"
-    }
-  }
-};
-
-
+const queryClient = new QueryClient();
 
 const App = () => {
+  const [data, isLoading, error] = useJsonQuery('https://courses.cs.northwestern.edu/394/guides/data/cs-courses.php');
+
+  if (isLoading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error.message}</div>;
+
   return (
     <div className="app-container">
-      <Banner title={schedule.title} />
+      <Banner title={data ? data.title : 'Loading...'} />
       <div className="course-container">
-        <CourseList course={schedule.courses} />
+        {data && <CourseList course={data.courses} />}
       </div>
     </div>
   );
 };
 
-export default App;
+export default () => (
+  <QueryClientProvider client={queryClient}>
+    <App />
+  </QueryClientProvider>
+);
