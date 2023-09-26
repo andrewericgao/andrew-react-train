@@ -1,11 +1,11 @@
 import React from 'react';
-import '/Users/andrewgao/Desktop/Northwestern/andrew-react-train/src/App.css';
+import '/src/App.css';
 
-const CourseList = ({ course }) => {
+const CourseList = ({ course, selectedCourses, toggleCourseSelection }) => {
     return (
       <div className="course-container">
         {Object.keys(course).map(key => (
-          <div className="course-card" key={key}>
+        <div className={`course-card ${selectedCourses.includes(key) ? 'selected' : ''}`} key={key} onClick={() => toggleCourseSelection(key)}>
             <div className="course-info">
               <div className="course-term">
                 {course[key].term} CS {course[key].number}
