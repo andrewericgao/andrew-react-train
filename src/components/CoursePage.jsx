@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useFormData } from '/src/utilities/useFormData.js';
+import { useDbUpdate } from '/src/firebase.js';
 
 const validator = (id, value) => {
   if (id === 'title') {
@@ -19,13 +20,22 @@ const validator = (id, value) => {
 const CoursePage = ({ course }) => {
   const { selectedCourseId } = useParams();
   const navigate = useNavigate();
-
+  const [updateData] = useDbUpdate(`/courses/${selectedCourseId}`);
   const specificCourse = course ? course[selectedCourseId] : null;
-
   const [formData, change] = useFormData(validator, {
     title: specificCourse ? specificCourse.title : '',
     time: specificCourse ? specificCourse.meets : ''
   });
+
+  const onSubmitClick = () => {
+    if (!formData.errors) {
+      updateData({
+        title: formData.values.title,
+        meets: formData.values.time
+      });
+      navigate('/');
+    }
+  };
 
   const onCancelClick = () => {
     navigate('/');
@@ -46,6 +56,7 @@ const CoursePage = ({ course }) => {
           {formData.errors && formData.errors.time && <span>{formData.errors.time}</span>}
         </label>
         <button type="button" onClick={onCancelClick}>Cancel</button>
+        <button type="button" onClick={onSubmitClick} disabled={!!formData.errors}>Submit</button>
       </form>
     </div>
   );
