@@ -1,5 +1,6 @@
 import { initializeApp } from "firebase/app";
 import { getDatabase, ref, onValue, update } from 'firebase/database';
+import { getAuth, GoogleAuthProvider, onAuthStateChanged, signInWithPopup, signOut } from 'firebase/auth';
 import { useEffect, useState, useCallback } from 'react';
 
 // Your web app's Firebase configuration
@@ -46,4 +47,22 @@ export const useDbUpdate = (path) => {
   }, [path]);
 
   return [updateData, result];
+};
+
+export const signInWithGoogle = () => {
+  signInWithPopup(getAuth(), new GoogleAuthProvider());
+};
+
+export const firebaseSignOut = () => {
+  signOut(getAuth());
+};
+
+export const useAuthState = () => {
+  const [user, setUser] = useState();
+
+  useEffect(() => (
+    onAuthStateChanged(getAuth(), setUser)
+  ), []);
+
+  return [user];
 };

@@ -5,12 +5,13 @@ import Banner from '/src/components/Banner.jsx';
 import TermPage from '/src/components/TermPage.jsx';
 import CourseList from '/src/components/CourseList.jsx';
 import CoursePage from '/src/components/CoursePage.jsx';
-import { useDbData } from '/src/firebase.js'; // Update this import
+import { useDbData, useAuthState } from '/src/firebase.js';
 import './App.css';
 
 const queryClient = new QueryClient();
 
 const App = () => {
+  const [user] = useAuthState();
   const [data, error] = useDbData('/');
   const [selectedCourses, setSelectedCourses] = React.useState([]);
   
