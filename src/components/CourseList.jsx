@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useParams, useNavigate } from 'react-router-dom';
 import { useDbData, useAuthState } from '/src/firebase.js';
+import { useProfile } from '/src/utilities/profile';
 import '/src/App.css';
 
 const CourseList = ({ course, selectedCourses, toggleCourseSelection, isCourseSelectable}) => {
   const [user] = useAuthState();
+  const [profile, profileLoading, profileError] = useProfile();
   const { selectedCourseId } = useParams();
   const navigate = useNavigate();
   const specificCourse = course ? course[selectedCourseId] : null;
@@ -38,7 +40,7 @@ const CourseList = ({ course, selectedCourses, toggleCourseSelection, isCourseSe
           <div className="course-info">
             <div className="course-term">{course[key].term} CS {course[key].number}</div>
             <div className="course-title">{course[key].title}</div>
-            {user && <Link to={`/edit/${key}`}>Edit</Link>}  {/* Note the added condition */}
+            {profile?.isAdmin && <Link to={`/edit/${key}`}>Edit</Link>}
           </div>
           <hr />
           <div className="course-meets">{course[key].meets}</div>

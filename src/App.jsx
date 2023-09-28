@@ -6,15 +6,16 @@ import TermPage from '/src/components/TermPage.jsx';
 import CourseList from '/src/components/CourseList.jsx';
 import CoursePage from '/src/components/CoursePage.jsx';
 import { useDbData, useAuthState } from '/src/firebase.js';
+import { useProfile } from '/src/utilities/profile';
 import './App.css';
 
 const queryClient = new QueryClient();
 
 const App = () => {
   const [user] = useAuthState();
+  const [profile, profileLoading, profileError] = useProfile();
   const [data, error] = useDbData('/');
   const [selectedCourses, setSelectedCourses] = React.useState([]);
-  
 
   const toggleCourseSelection = (courseId) => {
     setSelectedCourses(selectedCourses.includes(courseId)
@@ -29,8 +30,8 @@ const App = () => {
     <div className="app-container">
       <Banner title={data ? data.title : 'Loading...'} />
       <Routes>
-      <Route path="/" element={<TermPage courses={data.courses} selectedCourses={selectedCourses} toggleCourseSelection={toggleCourseSelection} />} />
-<Route path="/edit/:selectedCourseId" element={<CoursePage course={data.courses} />} />
+        <Route path="/" element={<TermPage courses={data.courses} selectedCourses={selectedCourses} toggleCourseSelection={toggleCourseSelection} />} />
+        <Route path="/edit/:selectedCourseId" element={<CoursePage course={data.courses} />} />
       </Routes>
     </div>
   );

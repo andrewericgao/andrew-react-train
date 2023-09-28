@@ -1,5 +1,5 @@
 import React from 'react';
-import { signInWithGoogle, firebaseSignOut, useAuthState } from '/src/firebase.js'; // Add this import
+import { signInWithGoogle, firebaseSignOut, useAuthState } from '/src/firebase.js';
 
 const Banner = ({ title }) => {
   const [user] = useAuthState();

@@ -3,7 +3,6 @@ import { getDatabase, ref, onValue, update } from 'firebase/database';
 import { getAuth, GoogleAuthProvider, onAuthStateChanged, signInWithPopup, signOut } from 'firebase/auth';
 import { useEffect, useState, useCallback } from 'react';
 
-// Your web app's Firebase configuration
 const firebaseConfig = {
   apiKey: "AIzaSyDz8mJFpFpdA2hJoO1z3MizYOhygsc038U",
   authDomain: "andrewreacttrain.firebaseapp.com",
@@ -14,7 +13,6 @@ const firebaseConfig = {
   appId: "1:783373355244:web:9fea2676dd5f9e49aa7dc9"
 };
 
-// Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const database = getDatabase(app);
 
