@@ -20,11 +20,11 @@ const TermPage = ({ courses, selectedCourses, toggleCourseSelection }) => {
     const closeModal = () => setModalOpen(false);
 
     const isCourseSelectable = (courseId) => {
-        const course = filteredCourses[courseId];
-        return selectedCourses.every(
-          selectedId => !isCourseConflict(course, filteredCourses[selectedId])
-        );
-      };
+    const course = filteredCourses[courseId];
+    return selectedCourses.every(
+      selectedId => !isCourseConflict(course, filteredCourses[selectedId])
+    );
+  };
 
   return (
     <div className="term-page">
@@ -43,8 +43,7 @@ const TermPage = ({ courses, selectedCourses, toggleCourseSelection }) => {
             ))
         }
       </Modal>}
-      <CourseList course={filteredCourses} selectedCourses={selectedCourses} toggleCourseSelection={toggleCourseSelection} isCourseSelectable={isCourseSelectable} />
-
+      <CourseList course={filteredCourses} selectedCourses={selectedCourses} toggleCourseSelection={toggleCourseSelection} />
     </div>
   );
 };

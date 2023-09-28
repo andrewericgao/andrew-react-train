@@ -1,7 +1,6 @@
-// Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
+import { getDatabase, ref, onValue, update } from 'firebase/database';
+import { useEffect, useState, useCallback } from 'react';
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -16,3 +15,35 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
+const database = getDatabase(app);
+
+export const useDbData = (path) => {
+  const [data, setData] = useState(null);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const dataRef = ref(database, path);
+    const unsubscribe = onValue(dataRef, (snapshot) => {
+      const fetchedData = snapshot.val();
+      setData(fetchedData);
+    }, (error) => {
+      setError(error);
+    });
+    return () => unsubscribe();
+  }, [path]);
+
+  return [data, error];
+};
+
+export const useDbUpdate = (path) => {
+  const [result, setResult] = useState(null);
+
+  const updateData = useCallback((value) => {
+    const dataRef = ref(database, path);
+    update(dataRef, value)
+      .then(() => setResult({ success: true }))
+      .catch((error) => setResult({ success: false, error }));
+  }, [path]);
+
+  return [updateData, result];
+};
