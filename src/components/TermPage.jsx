@@ -44,6 +44,7 @@ const TermPage = ({ courses, selectedCourses, toggleCourseSelection }) => {
         }
       </Modal>}
       <CourseList course={filteredCourses} selectedCourses={selectedCourses} toggleCourseSelection={toggleCourseSelection} isCourseSelectable={isCourseSelectable} />
+
     </div>
   );
 };

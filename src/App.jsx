@@ -1,10 +1,11 @@
 import React from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { Route, Routes } from 'react-router-dom';
 import Banner from '/src/components/Banner.jsx';
 import TermPage from '/src/components/TermPage.jsx';
-// import Navigation from '/src/components/Navigation.jsx'; 
+import CourseList from '/src/components/CourseList.jsx';
+import CoursePage from '/src/components/CoursePage.jsx';
 import { useJsonQuery } from '/src/utilities/fetchJson.js';
-// import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 
 const queryClient = new QueryClient();
@@ -26,9 +27,11 @@ const App = () => {
 
   return (
     <div className="app-container">
-      {/* <Navigation /> */}
       <Banner title={data ? data.title : 'Loading...'} />
-      {data && <TermPage courses={data.courses} selectedCourses={selectedCourses} toggleCourseSelection={toggleCourseSelection} />}
+      <Routes>
+        <Route path="/" element={<TermPage courses={data.courses} selectedCourses={selectedCourses} toggleCourseSelection={toggleCourseSelection} />} />
+        <Route path="/edit/:selectedCourseId" element={<CoursePage course={data.courses} />} />
+      </Routes>
     </div>
   );
 };
