@@ -2,9 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { Link, useParams, useNavigate } from 'react-router-dom';
 import { useDbData, useAuthState } from '/src/firebase.js';
 import { useProfile } from '/src/utilities/profile';
+import { isCourseConflict } from '/src/utilities/timeConflictUtilities';
 import '/src/App.css';
 
-const CourseList = ({ course, selectedCourses, toggleCourseSelection, isCourseSelectable}) => {
+const CourseList = ({ course, selectedCourses, toggleCourseSelection }) => {
   const [user] = useAuthState();
   const [profile, profileLoading, profileError] = useProfile();
   const { selectedCourseId } = useParams();
@@ -12,7 +13,12 @@ const CourseList = ({ course, selectedCourses, toggleCourseSelection, isCourseSe
   const specificCourse = course ? course[selectedCourseId] : null;
   const [title, setTitle] = React.useState(specificCourse ? specificCourse.title : '');
   const [time, setTime] = React.useState(specificCourse ? specificCourse.meets : '');
-  
+
+  const isCourseSelectable = (courseId) => {
+    const selectedCourseDetails = selectedCourses.filter(id => id !== courseId).map(id => course[id]);
+    return !selectedCourseDetails.some(selectedCourse => isCourseConflict(course[courseId], selectedCourse));
+  };
+
   useEffect(() => {
     if (specificCourse) {
       setTitle(specificCourse.title);
@@ -25,17 +31,13 @@ const CourseList = ({ course, selectedCourses, toggleCourseSelection, isCourseSe
     navigate('/');
   };
 
-  const onCancelClick = () => {
-    navigate('/');
-  };
-
   return (
     <div className="course-container">
       {Object.keys(course).map(key => (
         <div 
-          className={`course-card ${selectedCourses.includes(key) ? 'selected' : ''}`} 
+          className={`course-card ${selectedCourses.includes(key) ? 'selected' : ''} ${isCourseSelectable(key) ? '' : 'not-allowed'}`}
           key={key} 
-          onClick={() => toggleCourseSelection(key)}
+          onClick={() => isCourseSelectable(key) && toggleCourseSelection(key)}
         >
           <div className="course-info">
             <div className="course-term">{course[key].term} CS {course[key].number}</div>

@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useFormData } from '/src/utilities/useFormData.js';
 import { useDbUpdate } from '/src/firebase.js';
+import '/src/components/CoursePage.css';
 
 const validator = (id, value) => {
   if (id === 'title') {
@@ -42,21 +43,25 @@ const CoursePage = ({ course }) => {
   };
 
   return (
-    <div>
-      <h1>Edit Course</h1>
-      <form onSubmit={(e) => e.preventDefault()}>
-        <label>
+    <div className="course-edit-container">
+      <h1 className="course-edit-heading">Edit Course</h1>
+      <form onSubmit={(e) => e.preventDefault()} className="course-edit-form">
+        <div className="course-edit-label">
           Title:
-          <input id="title" type="text" value={formData.values.title} onChange={change} />
-          {formData.errors && formData.errors.title && <span>{formData.errors.title}</span>}
-        </label>
-        <label>
+          <input id="title" type="text" value={formData.values.title} onChange={change} className="course-edit-input" />
+        </div>
+        {formData.errors && formData.errors.title && <span className="course-edit-error">{formData.errors.title}</span>}
+
+        <div className="course-edit-label">
           Time:
-          <input id="time" type="text" value={formData.values.time} onChange={change} />
-          {formData.errors && formData.errors.time && <span>{formData.errors.time}</span>}
-        </label>
-        <button type="button" onClick={onCancelClick}>Cancel</button>
-        <button type="button" onClick={onSubmitClick} disabled={!!formData.errors}>Submit</button>
+          <input id="time" type="text" value={formData.values.time} onChange={change} className="course-edit-input" />
+        </div>
+        {formData.errors && formData.errors.time && <span className="course-edit-error">{formData.errors.time}</span>}
+
+        <div className="course-edit-buttons">
+          <button type="button" onClick={onCancelClick} className="course-edit-button cancel">Cancel</button>
+          <button type="button" onClick={onSubmitClick} disabled={!!formData.errors} className="course-edit-button submit">Submit</button>
+        </div>
       </form>
     </div>
   );
