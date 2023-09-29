@@ -5,7 +5,10 @@ const Banner = ({ title }) => {
   const [user] = useAuthState();
   return (
     <div className="banner-container">
-      <h1>{title}</h1>
+      <div className="title-container">
+        <h1>{title}</h1>
+        <p className="small-text">Please unselect the courses you have selected for this term before switching to another term.</p>
+      </div>
       {user ? (
         <button className="google-signin-btn" onClick={firebaseSignOut}>Sign out</button>
       ) : (

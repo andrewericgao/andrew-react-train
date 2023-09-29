@@ -150,3 +150,12 @@ hr {
 .google-signin-btn:hover {
   background-color: #f1f1f1;
 }
+
+.title-container {
+  text-align: left;
+}
+
+.small-text {
+  font-size: 16px;
+  color: #777;
+}
