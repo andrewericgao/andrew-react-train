@@ -10,6 +10,7 @@ const TermSelector = ({ selectedTerm, setSelectedTerm }) => {
           key={term}
           className={`term-button ${term === selectedTerm ? 'selected' : ''}`}
           onClick={() => setSelectedTerm(term)}
+          data-cy={term}
         >
           {term}
         </button>
