@@ -32,7 +32,9 @@ const CourseList = ({ course, selectedCourses, toggleCourseSelection }) => {
   };
 
   return (
-    <div className="course-container">
+    <div className="card m-1 p-2"
+    data-cy="course">
+<div className="course-container">
       {Object.keys(course).map(key => (
         <div 
           className={`course-card ${selectedCourses.includes(key) ? 'selected' : ''} ${isCourseSelectable(key) ? '' : 'not-allowed'}`}
@@ -62,6 +64,8 @@ const CourseList = ({ course, selectedCourses, toggleCourseSelection }) => {
         </form>
       )}
     </div>
+    </div>
+    
   );
 };
 
